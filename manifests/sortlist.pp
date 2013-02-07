@@ -19,13 +19,9 @@ define resolvconf::sortlist(
     $priority = '9999',
     $netmask  = '',
     $ensure   = 'present'
-    ) {
+) {
+  include resolvconf
   include resolvconf::lenses
-
-  Augeas {
-    context => '/files/etc/resolv.conf',
-    require => Class['resolvconf::lenses'],
-  }
 
   case $ensure {
     'present': {

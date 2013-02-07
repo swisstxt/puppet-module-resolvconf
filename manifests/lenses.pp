@@ -4,10 +4,10 @@
 #
 #   include resolvconf::lenses
 class resolvconf::lenses {
-  file { '/usr/share/augeas/lenses/resolvconf.aug':
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0444',
-    source => 'puppet:///modules/resolvconf/usr/share/augeas/lenses/resolvconf.aug',
-  }
+  #file { '/usr/share/augeas/lenses/resolvconf.aug':
+  #  owner  => 'root',
+  #  group  => 'root',
+  #  mode   => '0444',
+  #  source => 'puppet:///modules/resolvconf/usr/share/augeas/lenses/resolvconf.aug',
+  #}
 }

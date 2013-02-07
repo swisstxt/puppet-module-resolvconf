@@ -16,11 +16,9 @@
 #       priority => 1;
 #   }
 define resolvconf::search($priority = '999', $ensure = 'present') {
-  include resolvconf::lenses
-
   Augeas {
     context => '/files/etc/resolv.conf',
-    require => Class['resolvconf::lenses'],
+    load_path => "$settings::vardir/lib/augeas/lenses",
   }
 
   $match_priority = $priority ? {
