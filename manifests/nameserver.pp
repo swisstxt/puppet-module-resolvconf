@@ -22,10 +22,7 @@
 #     ensure => absent,
 #   }
 define resolvconf::nameserver($priority = 'last() + 1', $ensure = 'present') {
-  Augeas {
-    context => '/files/etc/resolv.conf',
-    load_path => "$settings::vardir/augeas/lenses",
-  }
+  include resolvconf
 
   case $ensure {
     present: {

@@ -9,33 +9,23 @@
 #
 # Examples
 #
-#   resolvconf::search {
-#     'foo.test.com':
-#       priority => 0;
-#     'test.com':
-#       priority => 1;
-#   }
-define resolvconf::search($priority = '999', $ensure = 'present') {
-  Augeas {
-    context => '/files/etc/resolv.conf',
-    load_path => "$settings::vardir/lib/augeas/lenses",
-  }
-
-  $match_priority = $priority ? {
-    '999'   => '*',
-    default => $priority,
-  }
-
+#   resolvconf::search {[
+#     'foo.test.com',
+#     'test.com',
+#   ]}
+define resolvconf::search($ensure = 'present') {
+  include resolvconf
+  
   case $ensure {
     'present': {
       augeas { "Adding search domain '${name}' to /etc/resolv.conf":
-        changes => "set search/${priority} ${name}",
-        onlyif  => "match search/${match_priority}[.='${name}'] size == 0",
+        changes => "set search/domain ${name}",
+        onlyif  => "match search/domain[.='${name}'] size == 0",
       }
     }
     'absent': {
       augeas { "Removing search domain '${name}' from /etc/resolv.conf":
-        changes => "rm search/*[.='${name}']",
+        changes => "rm search",
       }
     }
     default: {

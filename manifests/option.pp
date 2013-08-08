@@ -23,7 +23,6 @@
 #   }
 define resolvconf::option($value = '', $ensure = 'present') {
   include resolvconf
-  include resolvconf::lenses
 
   case $ensure {
     'present': {

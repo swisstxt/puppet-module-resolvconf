@@ -21,7 +21,6 @@ define resolvconf::sortlist(
     $ensure   = 'present'
 ) {
   include resolvconf
-  include resolvconf::lenses
 
   case $ensure {
     'present': {

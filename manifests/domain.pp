@@ -14,11 +14,8 @@
 #     ensure => absent,
 #   }
 define resolvconf::domain($ensure = 'present') {
-  Augeas {
-    context => '/files/etc/resolv.conf',
-    load_path => "$settings::vardir/augeas/lenses",
-  }
-
+  include resolvconf
+  
   case $ensure {
     'present': {
       augeas { "Setting domain in /etc/resolv.conf to ${name}":
