@@ -20,27 +20,29 @@ define resolvconf::sortlist(
     $netmask  = '',
     $ensure   = 'present'
 ) {
-  include resolvconf
-
   case $ensure {
     'present': {
       augeas { "Adding sortlist entry '${name}' to /etc/resolv.conf":
+        context => '/files/etc/resolv.conf',
         changes => "set sortlist/${priority}/address ${name}",
         onlyif  => "match sortlist/${priority}[address='${name}'] size == 0",
       }
 
       if $netmask == '' {
         augeas { "Removing netmask for sortlist entry '${name}'":
+          context => '/files/etc/resolv.conf',
           changes => "rm sortlist/*[address='${name}']/netmask",
         }
       } else {
         augeas { "Setting netmask for sortlist entry '${name}' to '${netmask}'":
+          context => '/files/etc/resolv.conf',
           changes => "set sortlist/*[address='${name}']/netmask ${netmask}",
         }
       }
     }
     'absent': {
       augeas { "Removing sortlist entry '${name}' from /etc/resolv.conf":
+        context => '/files/etc/resolv.conf',
         changes => "rm sortlist/*[address='${name}']",
       }
     }

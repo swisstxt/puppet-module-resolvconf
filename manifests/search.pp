@@ -14,17 +14,17 @@
 #     'test.com',
 #   ]}
 define resolvconf::search($ensure = 'present') {
-  include resolvconf
-  
   case $ensure {
     'present': {
       augeas { "Adding search domain '${name}' to /etc/resolv.conf":
+        context => '/files/etc/resolv.conf',
         changes => "set search/domain ${name}",
         onlyif  => "match search/domain[.='${name}'] size == 0",
       }
     }
     'absent': {
       augeas { "Removing search domain '${name}' from /etc/resolv.conf":
+        context => '/files/etc/resolv.conf',
         changes => "rm search",
       }
     }

@@ -22,18 +22,18 @@
 #     ensure => absent,
 #   }
 define resolvconf::nameserver($priority = 'last() + 1', $ensure = 'present') {
-  include resolvconf
-
   case $ensure {
     present: {
 
       augeas { "Adding nameserver ${name} to /etc/resolv.conf":
+        context => '/files/etc/resolv.conf',
         changes => "set nameserver[${priority}] ${name}",
         onlyif  => "match nameserver[.='${name}'] size == 0",
       }
     }
     absent: {
       augeas { "Removing nameserver ${name} from /etc/resolv.conf":
+        context => '/files/etc/resolv.conf',
         changes => "rm nameserver[.='${name}']"
       }
     }

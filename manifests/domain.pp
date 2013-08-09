@@ -14,16 +14,16 @@
 #     ensure => absent,
 #   }
 define resolvconf::domain($ensure = 'present') {
-  include resolvconf
-  
   case $ensure {
     'present': {
       augeas { "Setting domain in /etc/resolv.conf to ${name}":
+        context => '/files/etc/resolv.conf',
         changes => "set domain ${name}",
       }
     }
     'absent': {
       augeas { 'Removing domain from /etc/resolv.conf':
+        context => '/files/etc/resolv.conf',
         changes => 'rm domain',
       }
     }
