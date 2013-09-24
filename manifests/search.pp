@@ -18,7 +18,7 @@ define resolvconf::search($ensure = 'present') {
     'present': {
       augeas { "Adding search domain '${name}' to /etc/resolv.conf":
         context => '/files/etc/resolv.conf',
-        changes => "set search/domain ${name}",
+        changes => "set search/domain[last()+1] ${name}",
         onlyif  => "match search/domain[.='${name}'] size == 0",
       }
     }
