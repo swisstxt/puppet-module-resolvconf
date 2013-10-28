@@ -33,21 +33,14 @@ define resolvconf::option($value = '', $ensure = 'present') {
           augeas {
             "Adding option '${name}' to /etc/resolv.conf":
               context => '/files/etc/resolv.conf',
-              changes => [
-                "set options[last() + 1] ${name}",
-                "set options[last()]/value ${value}",
-              ],
+              changes => "set options/${name} ${value}",
               onlyif  => "match options[.='${name}'] size == 0";
-            "Setting /etc/resolv.conf option '${name}' to '${value}'":
-              context => '/files/etc/resolv.conf',
-              changes => "set options[.='${name}']/value ${value}",
-              require => Augeas["Adding option '${name} to /etc/resolv.conf"];
           }
         }
         default: {
           augeas { "Adding option '${name}' to /etc/resolv.conf":
             context => '/files/etc/resolv.conf',
-            changes => "set options[last() + 1] ${name}",
+            changes => "set options/${name}",
             onlyif  => "match options[.='${name}'] size == 0",
           }
         }
